@@ -31,29 +31,33 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
      * @var array Base (non-namespaced) vuex state.
      * @var array Base (non-namespaced) lazily evaluated vuex state.
      */
-    protected $_state = [],
-        $_lazyState = [];
+    protected $_state = [];
+
+    protected $_lazyState = [];
 
     /**
      * @var array Vuex modules.
      * @var array Lazily evaluated Vuex modules.
      */
-    protected $_modules = [],
-        $_lazyModules = [];
+    protected $_modules = [];
+
+    protected $_lazyModules = [];
 
     /**
      * @var array Mutations to be committed.
      * @var array Lazy Evaluated mutations to be committed.
      */
-    protected $_mutations = [],
-        $_lazyMutations = [];
+    protected $_mutations = [];
+
+    protected $_lazyMutations = [];
 
     /**
      * @var array Actions to be dispatched.
      * @var array Lazily Evaluated actions to be dispatched.
      */
-    protected $_actions = [],
-        $_lazyActions = [];
+    protected $_actions = [];
+
+    protected $_lazyActions = [];
 
     /** @var array Registered Classes for vuex ModuleLoaders. */
     protected $registeredMappings = [];
@@ -75,7 +79,7 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
 
                     return [
                         $loader->getNamespace() => [
-                            'class' => $location,
+                            'class'   => $location,
                             'methods' => get_class_methods($loader),
                         ],
                     ];
@@ -126,11 +130,11 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
             $keys = [$keys => $args];
         }
 
-        if (! isset($this->registeredMappings[$namespace])) {
+        if (!isset($this->registeredMappings[$namespace])) {
             throw new VuexInvalidModuleException("VuexLoader '{$namespace}' has not been properly registered.");
         }
 
-        if (! is_array($keys)) {
+        if (!is_array($keys)) {
             throw new VuexInvalidKeyException('Invalid keys were passed to Vuex::load.');
         }
 
@@ -142,15 +146,15 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
                 return is_int($key) ? [$value => null] : [$key => $value];
             })
             ->each(function ($args, $key) use ($namespace, $moduleLoader, $lazy) {
-                if (! in_array($key, $this->registeredMappings[$namespace]['methods'])) {
+                if (!in_array($key, $this->registeredMappings[$namespace]['methods'])) {
                     throw new VuexInvalidKeyException("Method '{$key}' does not exist on '{$this->registeredMappings[$namespace]['class']}'");
                 }
 
-                if (! is_array($args)) {
+                if (!is_array($args)) {
                     $args = [$args];
                 }
 
-                $params = $this->resolveClassMethodDependencies( $args, $moduleLoader, $key );
+                $params = $this->resolveClassMethodDependencies($args, $moduleLoader, $key);
 
                 if ($lazy) {
                     Vuex::module(
@@ -159,7 +163,7 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
                             $key => function () use ($moduleLoader, $key, $params) {
                                 return $moduleLoader->{$key}(...array_values($params));
                             },
-                       ]
+                        ]
                     );
                 } else {
                     Vuex::module(
@@ -214,7 +218,7 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
      */
     public function module(string $namespace, $state)
     {
-        if (! is_string($namespace) || empty($namespace)) {
+        if (!is_string($namespace) || empty($namespace)) {
             throw new VuexInvalidModuleException('$namespace must be a string.');
         }
 
@@ -237,61 +241,61 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
     {
         $store = [];
 
-        if (! empty($this->_state) || ! empty($this->_lazyState)) {
+        if (!empty($this->_state) || !empty($this->_lazyState)) {
             $store['state'] = [];
         }
 
-        if (! empty($this->_modules) || ! empty($this->_lazyModules)) {
+        if (!empty($this->_modules) || !empty($this->_lazyModules)) {
             $store['modules'] = [];
         }
 
-        if (! empty($this->_mutations) || ! empty($this->_lazyMutations)) {
+        if (!empty($this->_mutations) || !empty($this->_lazyMutations)) {
             $store['mutations'] = [];
         }
 
-        if (! empty($this->_actions) || ! empty($this->_lazyActions)) {
+        if (!empty($this->_actions) || !empty($this->_lazyActions)) {
             $store['actions'] = [];
         }
 
-        if (! empty($this->_state)) {
+        if (!empty($this->_state)) {
             $store['state'] = $this->reduceData($this->_state, $store['state'], function ($acc, $cur) {
                 return array_merge_phase($acc, $this->generateState($cur));
             });
         }
 
-        if (! empty($this->_lazyState)) {
+        if (!empty($this->_lazyState)) {
             $store['state'] = $this->reduceData($this->_lazyState, $store['state'], function ($acc, $cur) {
                 return array_merge_phase($acc, $this->generateLazyState($cur));
             });
         }
 
-        if (! empty($this->_modules)) {
+        if (!empty($this->_modules)) {
             foreach ($this->_modules as $module) {
                 $store['modules'] = array_merge_phase($store['modules'], $this->generateNamespacedModules($module));
             }
         }
 
-        if (! empty($this->_lazyModules)) {
+        if (!empty($this->_lazyModules)) {
             foreach ($this->_lazyModules as $module) {
                 $store['modules'] = array_merge_phase($store['modules'], $this->generateLazyNamespacedModules($module));
             }
         }
 
-        if (! empty($this->_mutations)) {
+        if (!empty($this->_mutations)) {
             $store['mutations'] = $this->_mutations;
         }
 
-        if (! empty($this->_lazyMutations)) {
+        if (!empty($this->_lazyMutations)) {
             foreach ($this->_lazyMutations as $mutation => $value) {
                 array_push($store['mutations'], [$mutation, $value()]);
             }
         }
 
-        if (! empty($this->_actions)) {
+        if (!empty($this->_actions)) {
             $store['actions'] = $this->_actions;
         }
 
-        if (! empty($this->_lazyActions)) {
+        if (!empty($this->_lazyActions)) {
             foreach ($this->_lazyActions as $action => $value) {
                 array_push($store['actions'], [$action, $value()]);
             }
@@ -300,27 +304,29 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
         return $store;
     }
 
-    public function recursiveGet(array $selectors, array $data) {
+    public function recursiveGet(array $selectors, array $data)
+    {
         // Grab the first item
         $first = array_shift($selectors);
 
         if (isset($data['state'][$first])) {
             // return from state if possible
             return $data['state'][$first];
-        } else if (isset($data['modules'][$first])) {
+        } elseif (isset($data['modules'][$first])) {
             // pass to nested module and check its state
             return $this->recursiveGet($selectors, $data['modules'][$first]);
-      }
+        }
 
-      // all unfound items will happily return null (no errors)
-      return null;
+        // all unfound items will happily return null (no errors)
+        return null;
     }
 
     /**
      * Usage: to get this.$store.state.users.active.name
      * Vuex::get('users.active.name')
      */
-    public function get(string $selector) {
+    public function get(string $selector)
+    {
         $parts = explode('.', $selector);
         return $this->recursiveGet($parts, $this->toArray());
     }
@@ -409,16 +415,16 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
      */
     public function verifyState($state)
     {
-        if (method_exists($state, 'toArray')) {
-            $state = $state->toArray();
-        } elseif (is_array($state)) {
+        if (is_array($state)) {
             $state = collect($state)->toArray();
-        } elseif (! is_callable($state)) {
+        } elseif (method_exists($state, 'toArray')) {
+            $state = $state->toArray();
+        } elseif (!is_callable($state)) {
             throw new VuexInvalidStateException('$state must be an array or a Collection.');
         }
 
         foreach ($state as $key => $value) {
-            if (method_exists($value, 'toArray')) {
+            if (method_exists((object) $value, 'toArray')) {
                 $state[$key] = $value->toArray();
             }
         }
@@ -476,7 +482,7 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
     protected function generateNamespacedModules($module)
     {
         foreach ($module as $namespace => $state) {
-            if (! Str::contains($namespace, '/')) { // simple module namespace
+            if (!Str::contains($namespace, '/')) { // simple module namespace
                 return [$namespace => ['state' => $state]];
             } else { // complex nested modules namespace
                 $namespaces = array_reverse(collect(explode('/', $namespace))->toArray());
@@ -499,7 +505,7 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
     protected function generateLazyNamespacedModules($module)
     {
         foreach ($module as $namespace => $state) {
-            if (! Str::contains($namespace, '/')) { // simple module namespace
+            if (!Str::contains($namespace, '/')) { // simple module namespace
                 if (is_callable($state)) {
                     $state = $state();
                 }
@@ -542,11 +548,11 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
      */
     public function dispatch($action, $value = null)
     {
-        if (! is_string($action) || empty($action)) {
+        if (!is_string($action) || empty($action)) {
             throw new VuexInvalidModuleException('$mutation must be a string.');
         }
 
-        if (! isset($value)) {
+        if (!isset($value)) {
             array_push($this->_actions, [$action]);
         } elseif (is_string($value) || is_bool($value) || is_numeric($value)) {
             array_push($this->_actions, [$action, $value]);
@@ -567,11 +573,11 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
      */
     public function commit($mutation, $value = null)
     {
-        if (! is_string($mutation) || empty($mutation)) {
+        if (!is_string($mutation) || empty($mutation)) {
             throw new VuexInvalidModuleException('$mutation must be a string.');
         }
 
-        if (! isset($value)) {
+        if (!isset($value)) {
             array_push($this->_mutations, [$mutation]);
         } elseif (is_string($value) || is_bool($value) || is_numeric($value)) {
             array_push($this->_mutations, [$mutation, $value]);
