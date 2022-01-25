@@ -1,0 +1,36 @@
+{
+    "name": "pderas/vuex-hydrate",
+    "description": "A Vuex plugin to hydrate your vuex store from PHP.",
+    "keywords": ["vuex", "hydrate", "laravel"],
+    "homepage": "https://github.com/PDERAS/vuex-hydrate",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Drew Bindon",
+            "email": "drew.bindon@pderas.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pderas\\VuexHydrate": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pderas\\VuexHydrate\\VuexHydrateServiceProvider"
+            ],
+            "aliases": {
+                "Vuex": "Pderas\\VuexHydrate\\Facades\\Vuex"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
