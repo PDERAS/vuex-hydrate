@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Pderas\\VuexHydrate": "src/"
+            "Pderas\\VuexHydrate\\": "src/"
         },
         "files": [
             "src/helpers.php"
