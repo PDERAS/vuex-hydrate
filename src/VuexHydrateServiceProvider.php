@@ -8,7 +8,7 @@ use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
-/* Macros */
+// Macros
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Router;
 use Illuminate\Support\ServiceProvider;
@@ -38,6 +38,17 @@ class VuexHydrateServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (!($this->app->configurationIsCached())) {
+            $config = require __DIR__ . '/config.defaults.php';
+            $this->app['config']->set('vuex-hydrate', array_merge_phase(
+                $config,
+                $this->app['config']->get('vuex-hydrate', [])
+            ));
+        }
+
+        // php artisan vendor:publish --provider="Phased\Routing\PhaseServiceProvider" --tag="config"
+        $this->publishes([__DIR__ . '/config.defaults.php' => config_path('vuex-hydrate.php')], 'config');
+
         $this->autoDiscoverModuleLoaders();
 
         $this->registerCommands();
@@ -52,9 +63,9 @@ class VuexHydrateServiceProvider extends ServiceProvider
     protected function autoDiscoverModuleLoaders()
     {
         // TODO: Register folders as namespaced modules
-        $automatic = collect(glob(app_path().'/VuexLoaders/*ModuleLoader.php'))
+        $automatic = collect(glob(app_path() . '/VuexLoaders/*ModuleLoader.php'))
             ->map(function ($file) {
-                $dropPath = Str::replaceFirst(app_path().'/', Container::getInstance()->getNamespace(), $file);
+                $dropPath = Str::replaceFirst(app_path() . '/', Container::getInstance()->getNamespace(), $file);
                 $dropExtension = Str::replaceLast('.php', '', $dropPath);
 
                 return str_replace('/', '\\', $dropExtension);
@@ -93,9 +104,9 @@ class VuexHydrateServiceProvider extends ServiceProvider
     {
         Blade::directive('vuex', function () {
             return "<?='<script id=\'"
-                .config('phase.initial_state_id', 'phase-state')."\'>window."
-                .config('phase.initial_state_key', '__PHASE_STATE__')
-                ."='.Pderas\VuexHydrate\Facades\Vuex::toJson().'</script>';?>";
+                . config('vuex-hydrate.initial_state_id', 'phase-state') . "\'>window."
+                . config('vuex-hydrate.initial_state_key', '__PHASE_STATE__')
+                . "='.Pderas\VuexHydrate\Facades\Vuex::toJson().'</script>';?>";
         });
     }
 }
