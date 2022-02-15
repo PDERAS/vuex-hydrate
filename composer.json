@@ -9,6 +9,10 @@
         {
             "name": "Drew Bindon",
             "email": "drew.bindon@pderas.com"
+        },
+        {
+            "name": "Reed Jones",
+            "email": "reedjones@reedjones.com"
         }
     ],
     "require": {

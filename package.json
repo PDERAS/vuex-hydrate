@@ -1,0 +1,46 @@
+{
+  "name": "@vuexhydrate/core",
+  "private": true,
+  "workspaces": [
+    "packages/frontend/*"
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
+    "@rollup/plugin-alias": "^3.0.0",
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-sucrase": "^3.0.0",
+    "@sucrase/jest-plugin": "^2.0.0",
+    "brotli-size": "^4.0.0",
+    "chalk": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "execa": "^4.0.0",
+    "gzip-size": "^5.1.1",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "minimist": "^1.2.0",
+    "node-fetch": "^2.6.0",
+    "prettier": "^2.0.5",
+    "pretty-bytes": "^5.3.0",
+    "rollup": "^2.0.0",
+    "rollup-plugin-terser": "^6.1.0",
+    "semver": "^7.3.2",
+    "tslib": "^2.0.0",
+    "typescript": "^3.7.5"
+  },
+  "scripts": {
+    "test:js": "jest",
+    "test:php": "vendor/bin/pest",
+    "test": "yarn test:js && yarn test:php",
+    "bump": "node -r esm build/version.js",
+    "notes": "node -r esm -r dotenv/config build/release-notes.js",
+    "build": "node -r esm build/build-js.js",
+    "watch": "node -r esm build/watch-js.js",
+    "pretest:js": "yarn build"
+  },
+  "dependencies": {
+    "ora": "^5.0.0"
+  }
+}

@@ -1,0 +1,16 @@
+# JS
+node_modules
+dist
+lerna-debug.log
+yarn-error.log
+mix-manifest.json
+
+# Macos
+.DS_Store
+
+# PHP
+vendor
+.php_cs.cache
+.phpunit.result.cache
+
+.env
