@@ -1,5 +1,5 @@
 
-import { VuexModule, VuexStore, VuexcellentOptions, IPhaseLogger } from '@vuexhydrate/state'
+import { VuexModule, VuexStore, VuexcellentOptions, IPhaseLogger } from '@pderas/vuex-hydrate-state'
 
 /**
  *

@@ -3,12 +3,12 @@ import { existsSync } from "fs";
 import { join } from 'path'
 
 export const packages = [
-  "packages/@vuexhydrate/types",
-  "packages/@vuexhydrate/state",
-  "packages/@vuexhydrate/routing",
-  "packages/@vuexhydrate/webpack-plugin",
-  "packages/@vuexhydrate/laravel-mix",
-  "packages/@vuexhydrate/phase",
+  "packages/@pderas/vuex-hydrate-types",
+  "packages/@pderas/vuex-hydrate-state",
+  "packages/@pderas/vuex-hydrate-routing",
+  "packages/@pderas/vuex-hydrate-webpack-plugin",
+  "packages/@pderas/vuex-hydrate-laravel-mix",
+  "packages/@pderas/vuex-hydrate-phase",
 ];
 
 export function git(cmd) {

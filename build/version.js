@@ -37,7 +37,7 @@ async function findNextVersion(level, identifier) {
 const versionBump = (deps, next) => {
   return Object.fromEntries(
     Object.entries(deps).map(([dep, version]) =>
-      dep.startsWith("@vuexhydrate") ? [dep, `^${next}`] : [dep, version]
+      dep.startsWith("@pderas") ? [dep, `^${next}`] : [dep, version]
     )
   )
 }

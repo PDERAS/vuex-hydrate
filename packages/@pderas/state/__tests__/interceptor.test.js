@@ -2,7 +2,7 @@ import axios from "axios";
 import Vuex from "vuex";
 import Vue from "vue";
 import { default as rawAxios } from "axios";
-import { hydrate } from "@vuexhydrate/state";
+import { hydrate } from "@pderas/vuex-hydrate-state";
 
 Vue.use(Vuex);
 

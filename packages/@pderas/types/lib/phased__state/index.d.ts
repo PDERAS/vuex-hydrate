@@ -1,5 +1,5 @@
 
-declare module '@vuexhydrate/state' {
+declare module '@pderas/vuex-hydrate-state' {
     import { AxiosInstance } from "axios";
 
     global {

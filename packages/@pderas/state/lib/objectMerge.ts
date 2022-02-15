@@ -1,4 +1,4 @@
-import { IPhaseLogger } from "@vuexhydrate/state";
+import { IPhaseLogger } from "@pderas/vuex-hydrate-state";
 
 /**
  * Checks if an item is an Object
@@ -42,7 +42,7 @@ const recursiveMerge = (
   } else {
     if (process.env.NODE_ENV !== 'production') {
       console.warn(
-        `[@vuexhydrate/state] The server side data does not match client side expectations.
+        `[@pderas/vuex-hydrate-state] The server side data does not match client side expectations.
         Server: ${JSON.stringify(source)}.
         Client: ${JSON.stringify(target)}`
       );

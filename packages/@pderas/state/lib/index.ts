@@ -1,4 +1,4 @@
-import { VuexcellentOptions, VuexStore, VuexModule } from "@vuexhydrate/state";
+import { VuexcellentOptions, VuexStore, VuexModule } from "@pderas/vuex-hydrate-state";
 import { loggingMerge, objectMerge } from "./objectMerge";
 import { mutantGenerator } from "./mutations";
 import { VuexcellentAutoCommitter } from "./committer";

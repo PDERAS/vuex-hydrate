@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { InitializedVuexStore, VuexModule, VuexStore, VuexcellentOptions, IPhaseLogger } from "@vuexhydrate/state";
+import { InitializedVuexStore, VuexModule, VuexStore, VuexcellentOptions, IPhaseLogger } from "@pderas/vuex-hydrate-state";
 
 export const VuexcellentAutoCommitter = (
   options: VuexcellentOptions,
@@ -135,7 +135,7 @@ const autoMutateInterceptor = (
     } catch (err) {
       logger.error(err);
       logger.warning(
-        `[@vuexhydrate/state] An error occurred during the auto commit process.\nYour vuex state may not be what you expected.`
+        `[@pderas/vuex-hydrate-state] An error occurred during the auto commit process.\nYour vuex state may not be what you expected.`
       );
     }
 

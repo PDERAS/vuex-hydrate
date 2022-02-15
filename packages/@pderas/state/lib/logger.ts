@@ -1,4 +1,4 @@
-import { ILogLevels, IPhaseLogger, IExtendedLogLevels } from '@vuexhydrate/state'
+import { ILogLevels, IPhaseLogger, IExtendedLogLevels } from '@pderas/vuex-hydrate-state'
 
 const LOG_MAPPING: ILogLevels = {
     debug: 'log', // log everything
