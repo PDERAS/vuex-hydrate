@@ -2,11 +2,9 @@
   "name": "@pderas/vuex-hydrate-core",
   "private": true,
   "workspaces": [
-    "packages/frontend/*"
+    "packages/@pderas/*"
   ],
   "devDependencies": {
-    "@commitlint/cli": "^9.1.1",
-    "@commitlint/config-conventional": "^9.1.1",
     "@rollup/plugin-alias": "^3.0.0",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
