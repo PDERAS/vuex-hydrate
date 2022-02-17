@@ -31,7 +31,7 @@
     "check": "tsc --noEmit --emitDeclarationOnly false"
   },
   "devDependencies": {
-    "@pderas/vuex-hydrate-types": "^1.0",
+    "@pderas/vuex-hydrate-types": "^2.0.0",
     "vue": "^2.6.11",
     "vuex": "^3.5.1"
   },
