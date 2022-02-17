@@ -1,6 +1,6 @@
 {
   "name": "@pderas/vuex-hydrate-state",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Vuex hydration and auto mutator for Laravel Apps",
   "author": "Drew Bindon <drew.bindon@pderas.com>",
   "contributors": [
