@@ -1,6 +1,6 @@
 {
   "name": "@pderas/vuex-hydrate-types",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Typescript types for @pderas/vuex-hydrate packages",
   "author": "Drew Bindon <drew.bindon@pderas.com>",
   "contributors": [
@@ -23,7 +23,7 @@
   "scripts": {},
   "dependencies": {
     "@types/webpack": "^4.41.3",
-    "axios": "^0.19.2"
+    "axios": "^0.26.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
