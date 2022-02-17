@@ -8,7 +8,7 @@ export const VuexcellentAutoCommitter = (
 ) => {
   const { axios, logger } = options
   if (!axios) {
-    logger.warning("[Phase] Axios not found, skipping API auto mutation Vuex Plugin");
+    logger.warning("[VuexHydrate] Axios not found, skipping API auto mutation Vuex Plugin");
     return [];
   }
 
@@ -31,7 +31,7 @@ export const VuexcellentAutoCommitter = (
  *
  * @param {Object} data_2 server supplied state for mutations
  */
-const autoCommitData = (
+export const autoCommitData = (
   { store, _state, mutator }: { store: InitializedVuexStore; _state: VuexModule; mutator: (key: string, ns?: string | null) => string; },
   { state = {}, modules = {} }: VuexModule,
   logger: IPhaseLogger
@@ -113,11 +113,11 @@ const autoMutateInterceptor = (
    */
   (response: AxiosResponse) => {
     if (!response.data.$vuex) {
-      logger.debug("[Phase] no vuex data detected. Skipping auto mutations.")
+      logger.debug("[VuexHydrate] no vuex data detected. Skipping auto mutations.")
       return response;
     }
 
-    logger.debug("[Phase] vuex data detected, attempting to auto-commit")
+    logger.debug("[VuexHydrate] vuex data detected, attempting to auto-commit")
 
     try {
       // grab state & modules, if existing & auto-commit
