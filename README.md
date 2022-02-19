@@ -15,7 +15,12 @@ createInertiaApp({
             modals,
             store,
             mounted() {
+                // This runs on page refresh
                 hydrateWatch(this, store);
+                // This runs on normal inertia page changes
+                this.$inertia.on('success', _ => {
+                    hydrateWatch(this, store);
+                });
             },
             render: h => h(App, props)
         }).$mount(el);
