@@ -103,7 +103,7 @@ const autoMutateInterceptor = (
   logger: IPhaseLogger
 ) =>
   /**
-   * Axios Interceptor. if $vuex key is present in response data,
+   * Axios Interceptor. if vuex key is present in response data,
    * an attempt is made to parse the state and modules and commit
    * any changes
    *
@@ -112,7 +112,7 @@ const autoMutateInterceptor = (
    * @return {Object} response
    */
   (response: AxiosResponse) => {
-    if (!response.data.$vuex) {
+    if (!response.data.vuex) {
       logger.debug("[VuexHydrate] no vuex data detected. Skipping auto mutations.")
       return response;
     }
@@ -121,15 +121,15 @@ const autoMutateInterceptor = (
 
     try {
       // grab state & modules, if existing & auto-commit
-      autoCommitData({ store, _state, mutator }, response.data.$vuex, logger);
+      autoCommitData({ store, _state, mutator }, response.data.vuex, logger);
 
       // user specified mutations
-      (response.data.$vuex.mutations || []).forEach(
+      (response.data.vuex.mutations || []).forEach(
         ([mutation, value]: [string, any?]) => store.commit(mutation, value)
       );
 
       // user specified actions
-      (response.data.$vuex.actions || []).forEach(
+      (response.data.vuex.actions || []).forEach(
         ([action, value]: [string, any?]) => store.dispatch(action, value)
       );
     } catch (err) {

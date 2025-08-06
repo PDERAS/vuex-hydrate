@@ -63,7 +63,19 @@ trait VuexFactoryDependencyResolverTrait
      */
     protected function transformDependency(ReflectionParameter $parameter, $parameters, $skippableValue)
     {
-        $class = $parameter->getClass();
+        $class = null;
+        if (method_exists($parameter, 'getType') && $parameter->getType() instanceof \ReflectionNamedType) {
+            // PHP 8+ safe path
+            $type = $parameter->getType();
+
+            $class = !$type->isBuiltin()
+                ? new \ReflectionClass($type->getName())
+                : null;
+        } else {
+            // PHP 7 fallback
+            $class = $parameter->getClass(); // deprecated in PHP 8 but works in 7
+        }
+
         if ($class && ! $this->alreadyInParameters($class->name, $parameters)) {
 
             if ($this->container->bound($class->getName())) {

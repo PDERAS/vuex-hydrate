@@ -71,7 +71,7 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
             $this->registeredMappings,
             collect($mappings)
                 ->mapWithKeys(function ($location) {
-                    $loader = new $location;
+                    $loader = new $location();
 
                     $this->container->singleton($location, function () use ($loader) {
                         return $loader;
@@ -406,7 +406,7 @@ class VuexFactory implements Arrayable, Jsonable, JsonSerializable
      */
     public function toResponse()
     {
-        return response()->json(['$vuex' => $this->toArray()]);
+        return response()->json(['vuex' => $this->toArray()]);
     }
 
     /**
