@@ -7,6 +7,7 @@ use Illuminate\Routing\RouteDependencyResolverTrait;
 use Pderas\VuexHydrate\Exceptions\VuexMissingRequiredParameter;
 use ReflectionFunctionAbstract;
 use ReflectionParameter;
+use Illuminate\Support\Reflector;
 
 /**
  * Modified from Laravel's Route Resolver
@@ -63,35 +64,14 @@ trait VuexFactoryDependencyResolverTrait
      */
     protected function transformDependency(ReflectionParameter $parameter, $parameters, $skippableValue)
     {
-        $class = null;
-        if (method_exists($parameter, 'getType') && $parameter->getType() instanceof \ReflectionNamedType) {
-            // PHP 8+ safe path
-            $type = $parameter->getType();
+        $className = Reflector::getParameterClassName($parameter);
 
-            $class = !$type->isBuiltin()
-                ? new \ReflectionClass($type->getName())
-                : null;
-        } else {
-            // PHP 7 fallback
-            $class = $parameter->getClass(); // deprecated in PHP 8 but works in 7
-        }
-
-        if ($class && ! $this->alreadyInParameters($class->name, $parameters)) {
-
-            if ($this->container->bound($class->getName())) {
-                return $this->container->make($class->name);
-            }
-
+        if ($className && ! $this->alreadyInParameters($className, $parameters)) {
             if (!isset($parameters[$parameter->getName()])) {
                 throw new VuexMissingRequiredParameter("Missing required parameter {$parameter->getName()}");
             }
 
-            if(class_exists($class->name)) {
-                $model = new $class->name;
-                if ($model instanceof Model) {
-                    return $model->resolveRouteBinding($parameters[$parameter->getName()]);
-                }
-            }
+            return $parameter->isDefaultValueAvailable() ? null : $this->container->make($className);
         }
 
         return $skippableValue;
