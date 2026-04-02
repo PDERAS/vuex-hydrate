@@ -31,7 +31,7 @@ export const createLogger = (logLevel: keyof ILogLevels): IPhaseLogger => {
                 }
 
                 const level = LOG_MAPPING[prop] as keyof Console;
-                return shouldLog(prop) && console[level](...args);
+                return shouldLog(prop) && (console[level] as (...args: any[]) => void)(...args);
             }
         },
     });
