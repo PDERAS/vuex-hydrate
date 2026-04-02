@@ -63,7 +63,7 @@ const recursiveMerge = (
  * @return {Object}
  */
 export const objectMerge = <T>(...sources: T[]): T => {
-  return (recursiveMerge({}, ...sources) as any) as T;
+  return (recursiveMerge({}, ...(sources as any[])) as any) as T;
 };
 
 export const loggingMerge = <T>(logger?: IPhaseLogger, ...sources: T[]): T => {

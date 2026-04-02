@@ -27,7 +27,7 @@
     "rollup-plugin-terser": "^6.1.0",
     "semver": "^7.3.2",
     "tslib": "^2.0.0",
-    "typescript": "^3.7.5"
+    "typescript": "^4.9.0"
   },
   "scripts": {
     "test:js": "jest",
@@ -41,5 +41,9 @@
   },
   "dependencies": {
     "ora": "^5.0.0"
+  },
+  "resolutions": {
+    "@types/node": "^18.0.0",
+    "@types/babel__traverse": "^7.20.0"
   }
 }
