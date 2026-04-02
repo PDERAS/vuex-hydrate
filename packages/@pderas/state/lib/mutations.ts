@@ -27,7 +27,7 @@ export const mutantGenerator = ({ mutationPrefix = "X_SET", logger }: { mutation
 
   /** Default mutation. Nukes state and replaces */
   const _newMutation = (key: string): Function => {
-    return new Function("state", "val", `state.${key} = val`);
+    return (state: any, val: any) => { state[key] = val; };
   };
 
   /** Creates mutations based in state keys */

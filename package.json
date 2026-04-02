@@ -4,6 +4,7 @@
   "workspaces": [
     "packages/@pderas/*"
   ],
+  "version": "3.0.0",
   "devDependencies": {
     "@rollup/plugin-alias": "^3.0.0",
     "@rollup/plugin-commonjs": "^14.0.0",
